@@ -7,7 +7,8 @@
     "dev": "ts-node-dev src/index.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Alexis Hernandez",
+  "email": "alexisrhc@hotmail.com",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.7",
