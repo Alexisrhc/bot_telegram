@@ -21,6 +21,10 @@ bot.onText(/\/hello/, (msg) => {
   bot.sendMessage(msg.chat.id, 'Hola');
 });
 
+bot.onText(/\/start/, (msg) => {
+  bot.sendMessage(msg.chat.id, 'Iniciaste el bot de telegram, ahora puedes usar los comandos /hello');
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
