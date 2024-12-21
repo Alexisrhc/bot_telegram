@@ -5,10 +5,14 @@ import TelegramBot from 'node-telegram-bot-api';
 dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const token = process.env.TELEGRAM_API_TOKEN;
-const bot = new TelegramBot(token!.toString(), { polling: true });
+if (!token) {
+  throw new Error('TELEGRAM_API_TOKEN environment variable is required');
+}
+
+const bot = new TelegramBot(token, { polling: true });
 
 // Ruta básica para verificar el servidor
 app.get('/', (req: Request, res: Response) => {
@@ -20,10 +24,9 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
-//add command to bot /hello to send hello world
+// Añadir comando al bot /hello para enviar hello world
 bot.onText(/\/hello/, (msg) => {
-  bot.sendMessage(msg.chat.id, `Lo unico que hara este bot es decir, HOLA! 😊`);
-  // bot.sendMessage(msg.chat.id, `${JSON.stringify(msg)}`);s
+  bot.sendMessage(msg.chat.id, 'Lo unico que hara este bot es decir, HOLA! 😊');
 });
 
 bot.onText(/\/start/, (msg) => {
