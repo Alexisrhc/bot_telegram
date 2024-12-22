@@ -11,9 +11,13 @@ if (!token) {
   throw new Error('TELEGRAM_API_TOKEN environment variable is required');
 }
 
-const bot = new TelegramBot(token);
+const bot = new TelegramBot(token, { polling: true });
 
-bot.setWebHook(`${process.env.WEBHOOK_URL}/webhook`);
+//app.use(express.json());
+
+bot.on('message', (msg) => {
+  bot.sendMessage(msg.chat.id, `Bot: \n${msg.text}`);  
+});
 
 // Ruta básica para verificar el servidor
 app.get('/', (req: Request, res: Response) => {
@@ -22,8 +26,7 @@ app.get('/', (req: Request, res: Response) => {
     version: '0.0.1',
     author: 'Alexis Hernandez',
     email: 'alexisrhc@hotmail.com',
-    license: 'MIT',
-    webhook : `${process.env.WEBHOOK_URL}/webhook`
+    license: 'MIT'
   });
 });
 
@@ -35,12 +38,6 @@ bot.onText(/\/hello/, (msg) => {
 // Añadir comando al bot /start para enviar mensaje de inicio
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, 'Iniciaste el bot de Telegram, ahora puedes usar los comandos /hello');
-});
-
-// Ruta para recibir actualizaciones de Telegram
-app.post('/webhook', (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200); // Responder correctamente a Telegram
 });
 
 export default app;
