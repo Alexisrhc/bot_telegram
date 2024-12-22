@@ -23,7 +23,7 @@ app.get('/', (req: Request, res: Response) => {
     author: 'Alexis Hernandez',
     email: 'alexisrhc@hotmail.com',
     license: 'MIT',
-    webhook : `${process.env.WEBHOOK_URL}/webhook`
+    webhook : `${process.env.WEBHOOK_URL}/\/webhook`
   });
 });
 
