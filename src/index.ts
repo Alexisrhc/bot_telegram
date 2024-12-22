@@ -1,43 +1,47 @@
 import dotenv from 'dotenv';
-import e from 'express';
 import express, { Request, Response } from 'express';
 import TelegramBot from 'node-telegram-bot-api';
 
 dotenv.config();
 
 const app = express();
-// const port = process.env.PORT || 3000;
 
 const token = process.env.TELEGRAM_API_TOKEN;
 if (!token) {
   throw new Error('TELEGRAM_API_TOKEN environment variable is required');
 }
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token, { 
+  polling: true,
+});
+
+bot.setWebHook(`${process.env.WEBHOOK_URL}`);
 
 // Ruta básica para verificar el servidor
 app.get('/', (req: Request, res: Response) => {
   res.json({
-    message: 'Api de telegram funcionando',
-    version: "1.0.0",
-    author: "Alexis Hernandez",
-    email: "alexisrhc@hotmail.com",
-    token: token ? 'si hay un token en la aplicacion' : 'No se ha configurado el token de telegram',
+    message: 'API de Telegram funcionando',
+    version: '1.0.0',
+    author: 'Alexis Hernandez',
+    email: 'alexisrhc@hotmail.com',
+    license: 'MIT',
   });
 });
 
 // Añadir comando al bot /hello para enviar hello world
 bot.onText(/\/hello/, (msg) => {
-  bot.sendMessage(msg.chat.id, 'Lo unico que hara este bot es decir, HOLA! 😊');
-  bot.sendMessage(msg.chat.id, 'Saludando a todos los que lo usan');
+  bot.sendMessage(msg.chat.id, 'Lo único que hará este bot es decir, HOLA! 😊');
 });
 
+// Añadir comando al bot /start para enviar mensaje de inicio
 bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, 'Iniciaste el bot de telegram, ahora puedes usar los comandos /hello');
+  bot.sendMessage(msg.chat.id, 'Iniciaste el bot de Telegram, ahora puedes usar los comandos /hello');
+});
+
+// Ruta para recibir actualizaciones de Telegram
+app.post('/webhook', (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200); // Responder correctamente a Telegram
 });
 
 export default app;
-
-// app.listen(port, () => {
-//   console.log(`Server running on http://localhost:${port}`);
-// });
