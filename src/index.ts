@@ -23,6 +23,7 @@ app.get('/', (req: Request, res: Response) => {
     email: 'alexisrhc@hotmail.com',
     published: '2024-12-22',
     license: 'MIT',
+    name_bot: '@alexisrhc_dev_bot',
   });
 });
 
