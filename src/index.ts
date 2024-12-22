@@ -16,9 +16,9 @@ const bot = new TelegramBot(token, { polling: true });
 
 //app.use(express.json());
 
-bot.on('message', (msg) => {
-  bot.sendMessage(msg.chat.id, `Bot: \n${msg.text}`);  
-});
+// bot.on('message', (msg) => {
+//   bot.sendMessage(msg.chat.id, `Bot: \n${msg.text}`);  
+// });
 
 // Ruta básica para verificar el servidor
 app.get('/', (req: Request, res: Response) => {
