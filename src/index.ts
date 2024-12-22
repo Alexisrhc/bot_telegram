@@ -27,6 +27,7 @@ app.get('/', (req: Request, res: Response) => {
 // Añadir comando al bot /hello para enviar hello world
 bot.onText(/\/hello/, (msg) => {
   bot.sendMessage(msg.chat.id, 'Lo unico que hara este bot es decir, HOLA! 😊');
+  bot.sendMessage(msg.chat.id, 'Saludando a todos los que lo usan');
 });
 
 bot.onText(/\/start/, (msg) => {
