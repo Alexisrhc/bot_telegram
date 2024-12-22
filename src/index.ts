@@ -11,11 +11,9 @@ if (!token) {
   throw new Error('TELEGRAM_API_TOKEN environment variable is required');
 }
 
-const bot = new TelegramBot(token, { 
-  polling: true,
-});
+const bot = new TelegramBot(token);
 
-bot.setWebHook(`${process.env.WEBHOOK_URL}`);
+bot.setWebHook(`${process.env.WEBHOOK_URL}/webhook`);
 
 // Ruta básica para verificar el servidor
 app.get('/', (req: Request, res: Response) => {
