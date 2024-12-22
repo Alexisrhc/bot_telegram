@@ -19,7 +19,7 @@ bot.setWebHook(`${process.env.WEBHOOK_URL}/webhook`);
 app.get('/', (req: Request, res: Response) => {
   res.json({
     message: 'API de Telegram funcionando',
-    version: '1.0.0',
+    version: '0.0.1',
     author: 'Alexis Hernandez',
     email: 'alexisrhc@hotmail.com',
     license: 'MIT',
