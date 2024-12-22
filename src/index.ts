@@ -1,11 +1,12 @@
 import dotenv from 'dotenv';
+import e from 'express';
 import express, { Request, Response } from 'express';
 import TelegramBot from 'node-telegram-bot-api';
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 
 const token = process.env.TELEGRAM_API_TOKEN;
 if (!token) {
@@ -35,6 +36,8 @@ bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, 'Iniciaste el bot de telegram, ahora puedes usar los comandos /hello');
 });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+export default app;
+
+// app.listen(port, () => {
+//   console.log(`Server running on http://localhost:${port}`);
+// });
