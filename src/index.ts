@@ -39,7 +39,6 @@ bot.onText(/\/start/, (msg) => {
 
 // Ruta para recibir actualizaciones de Telegram
 app.post('/webhook', (req, res) => {
-  console.log(req.body);
   bot.processUpdate(req.body);
   res.sendStatus(200); // Responder correctamente a Telegram
 });
