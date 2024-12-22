@@ -21,8 +21,8 @@ app.get('/', (req: Request, res: Response) => {
     version: '0.0.1',
     author: 'Alexis Hernandez',
     email: 'alexisrhc@hotmail.com',
-    license: 'MIT',
     published: '2024-12-22',
+    license: 'MIT',
   });
 });
 
