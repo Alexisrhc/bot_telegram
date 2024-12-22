@@ -23,7 +23,7 @@ app.get('/', (req: Request, res: Response) => {
     author: 'Alexis Hernandez',
     email: 'alexisrhc@hotmail.com',
     license: 'MIT',
-    webhook : `${process.env.WEBHOOK_URL}/\/webhook`
+    webhook : `${process.env.WEBHOOK_URL}/webhook`
   });
 });
 
@@ -38,7 +38,7 @@ bot.onText(/\/start/, (msg) => {
 });
 
 // Ruta para recibir actualizaciones de Telegram
-app.post('webhook', (req, res) => {
+app.post('/webhook', (req, res) => {
   bot.processUpdate(req.body);
   res.sendStatus(200); // Responder correctamente a Telegram
 });
