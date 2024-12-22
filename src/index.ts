@@ -20,7 +20,8 @@ app.get('/', (req: Request, res: Response) => {
     message: 'Api de telegram funcionando',
     version: "1.0.0",
     author: "Alexis Hernandez",
-    email: "alexisrhc@hotmail.com"
+    email: "alexisrhc@hotmail.com",
+    token: token ? 'si hay un token en la aplicacion' : 'No se ha configurado el token de telegram',
   });
 });
 
