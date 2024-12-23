@@ -5,6 +5,7 @@ import TelegramBot from 'node-telegram-bot-api';
 dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 const token = process.env.TELEGRAM_API_TOKEN;
 
@@ -35,11 +36,10 @@ bot.onText(/\/hello/, (msg) => {
 // Añadir comando al bot /start para enviar mensaje de inicio
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, 'Iniciaste el bot de Telegram, ahora puedes usar el comando /hello');
-  // bot.sendMessage(msg.chat.id, 'CHUPALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
 });
 
-// app.listen(port, () => {
-//   console.log(`Servidor de Telegram funcionando en http://localhost:${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Servidor de Telegram funcionando en http://localhost:${port}`);
+});
 
 export default app;
