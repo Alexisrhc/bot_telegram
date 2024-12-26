@@ -18,6 +18,7 @@ const openai_client = new OpenAI({
   apiKey: apiOpenAI,
   timeout: 60000,
 });
+
 const bot = new TelegramBot(token, { polling: true });
 
 // aquí puedes ver en consola todo lo que sucede en el proyecto
@@ -35,8 +36,16 @@ app.get("/", (req: Request, res: Response) => {
     name_bot: "@alexisrhc_dev_bot",
     integrations: {
       openai: true,
-    }
+    },
   });
+});
+
+// Añadir comando al bot /start para enviar mensaje de inicio
+bot.onText(/\/start/, async (msg) => {
+  bot.sendMessage(
+    msg.chat.id,
+    "hola soy un bot de telegram, ¿en qué puedo ayudarte?, Si gustas puedes escribirme un mensaje y te responderé lo mejor que pueda 😊, recuerda que estoy conectado a openai y funciono casi como si fuera ChatGpt"
+  );
 });
 
 // trigger para probar la coneccion con openai
@@ -57,19 +66,10 @@ bot.on("message", async (msg: TelegramBot.Message) => {
       response?.choices[0]?.message?.content ||
         "No se ha podido obtener una respuesta"
     );
-    
   } catch (error) {
     console.error("Error:", error);
     await bot.sendMessage(chatId, "Lo siento, ha ocurrido un error.");
   }
-});
-
-// Añadir comando al bot /start para enviar mensaje de inicio
-bot.onText(/\/start/, async (msg) => {
-  bot.sendMessage(
-    msg.chat.id,
-    "hola soy un bot de telegram, ¿en qué puedo ayudarte?, Si gustas puedes escribirme un mensaje y te responderé lo mejor que pueda 😊, recuerda que estoy conectado a openai y funciono casi como si fuera ChatGpt"
-  );
 });
 
 app.listen(port, () => {
