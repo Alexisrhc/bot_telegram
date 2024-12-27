@@ -17,3 +17,9 @@ alexisrhc@hotmail.com
 7. Abrir el bot en telegram
 8. Escribir /hello
 9. Comprobar que el bot responde
+
+## version 1.0.0
+
+recuerde agregar una OPENAI_API_KEY para hacer pruebas en esta version
+
+###### Lanzamiento 26/12/2024
