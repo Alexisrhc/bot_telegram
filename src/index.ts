@@ -1,25 +1,10 @@
-import dotenv from "dotenv";
 import express, { Request, Response } from "express";
+import openai_client from "./libs/openai";
 import TelegramBot from "node-telegram-bot-api";
-import OpenAI from "openai";
-
-dotenv.config();
+import bot from "./libs/telegram";
+import { getUserContext, saveUserContext } from "./libs/services";
 
 const app = express();
-const port = process.env.PORT || 3000;
-const token = process.env.TELEGRAM_API_TOKEN;
-const apiOpenAI = process.env.OPENAI_API_KEY;
-
-if (!token) {
-  throw new Error("TELEGRAM_API_TOKEN environment variable is required");
-}
-
-const openai_client = new OpenAI({
-  apiKey: apiOpenAI,
-  timeout: 60000,
-});
-
-const bot = new TelegramBot(token, { polling: true });
 
 // aquí puedes ver en consola todo lo que sucede en el proyecto
 // app.use(express.json());
@@ -48,17 +33,39 @@ bot.onText(/\/start/, async (msg) => {
   );
 });
 
-// trigger para probar la coneccion con openai
+/**
+ * trigger para probar la conexión con openai
+ * @param msg
+ */
 bot.on("message", async (msg: TelegramBot.Message) => {
   const chatId = msg.chat.id;
   const text = msg.text || "";
 
   try {
     // Envía el mensaje a la API de OpenAI
+    const previousContext = getUserContext(chatId);
+
     const response = await openai_client.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: text }],
+      messages: [
+        ...previousContext.map((context) => ({
+          role: context.role as "user",
+          content: context.content,
+        })),
+        { role: "system", content: text },
+      ],
     });
+
+    const newContext = [
+      ...previousContext,
+      { role: "user", content: text },
+      {
+        role: "assistant",
+        content: response.choices[0].message.content || "",
+      },
+    ];
+    
+    saveUserContext(chatId, newContext);
 
     // Envía la respuesta a Telegram
     await bot.sendMessage(
@@ -70,10 +77,6 @@ bot.on("message", async (msg: TelegramBot.Message) => {
     console.error("Error:", error);
     await bot.sendMessage(chatId, "Lo siento, ha ocurrido un error.");
   }
-});
-
-app.listen(port, () => {
-  console.log(`Servidor de Telegram funcionando en http://localhost:${port}`);
 });
 
 export default app;
